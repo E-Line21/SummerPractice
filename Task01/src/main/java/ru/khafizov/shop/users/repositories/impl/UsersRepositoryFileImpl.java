@@ -45,6 +45,7 @@ public class UsersRepositoryFileImpl implements UsersRepository {
             for (User user : users) {
                 if (user.getId().equals(id)) {
                     userFound = true;
+                    continue;
                 }
                 writeUser(writer, user);
             }
@@ -76,7 +77,8 @@ public class UsersRepositoryFileImpl implements UsersRepository {
     }
 
     private Stream<User> usersStream() {
-        try (BufferedReader reader = new BufferedReader(new FileReader(fileName));) {
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(fileName));
             return reader.lines()
                     .map(UsersRepositoryFileImpl::createUserFrom);
         } catch (IOException e) {
